@@ -11,11 +11,11 @@
 <body @keyup.down.prevent="down" @keyup.enter.prevent="down" @keyup.up.prevent="up" @mousewheel="toggle">
     <div class="content">
         <div class="pages" :style="{top: top+'%'}">
-            <div class="page" v-for="n in page_len" v-text="n+1">
+            <div class="page" v-for="n in page_len" v-text="n+1 + '/' + page_len">
             </div>
         </div>
     </div>
-    <ul class="nav-point">
+    <ul class="nav-point" v-show="page_len < 13">
         <li :class="{active: index === i+1}" @click="index = i+1" v-for="i in page_len"></li>
     </ul>
     <script src="http://cdn.bootcss.com/vue/1.0.15/vue.min.js"></script>
@@ -23,25 +23,29 @@
     var vm = new Vue({
         el: 'body',
         data: {
-            page_len: 10,
+            page_len: 130,
             index: 1
         },
         methods: {
             up: function() {
-                if (this.index > 1)
+                if (this.index > 1) {
                     this.index--;
+                }
             },
             down: function() {
-                if (this.index < this.page_len)
+                if (this.index < this.page_len) {
                     this.index++;
+                }
             },
 
             // try to transform to mousewheel.up and mousewheel.down
             // try to be compatible with firefox(DOMMouseScroll)
+            // 避免触摸板多次触发，设置时延
             toggle: function(event) {
-                if (event.wheelDelta === -120) {
+                console.log(event.wheelDelta);
+                if (event.wheelDelta < 0) {
                     this.down();
-                } else if (event.wheelDelta === 120) {
+                } else {
                     this.up();
                 }
             }
