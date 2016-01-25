@@ -1,92 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
-    <style>
-    * {
-        padding: 0;
-        margin: 0;
-    }
-
-    html, body {
-        height: 100%;
-        position: relative;
-    }
-
-    .content {
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .pages {
-        height: 100%;
-        background-color: #aaa;
-        position: relative;
-        -webkit-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        transition: all 1s ease;
-    }
-
-    .page {
-        height: 100%;
-        text-align: center;
-        font-size: 54px;
-        color: #fff;
-    }
-
-    .btns {
-        position: absolute;
-        width: 100px;
-        height: 50px;
-        margin: auto;
-        left: 0;
-        right: 0;
-        bottom: 10px;
-    }
-
-    .btn {
-        display: inline-block;
-        padding: 5px;
-        border: 1px solid #aaa;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>vue-slide</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body @keyup.down.prevent="down" @keyup.up.prevent="up">
+
+<body @keyup.down.prevent="down" @keyup.enter.prevent="down" @keyup.up.prevent="up" @mousewheel="toggle">
     <div class="content">
         <div class="pages" :style="{top: top+'%'}">
-            <div class="page" :style="{'background-color': '#'+n+n+1}" v-for="n in len" v-text="n">
+            <div class="page" v-for="n in page_len" v-text="n+1">
             </div>
         </div>
     </div>
-    <div class="btns">
-        <div class="btn" @click="down">down</div>
-        <div class="btn" @click="up">up</div>
-    </div>
+    <ul class="nav-point">
+        <li :class="{active: index === i+1}" @click="index = i+1" v-for="i in page_len"></li>
+    </ul>
     <script src="http://cdn.bootcss.com/vue/1.0.15/vue.min.js"></script>
     <script>
     var vm = new Vue({
         el: 'body',
         data: {
-            top: 0,
-            len: 10,
+            page_len: 10,
+            index: 1
         },
         methods: {
             up: function() {
-                if (this.top < 0) {
-                    this.top += 100;
-                }
+                if (this.index > 1)
+                    this.index--;
             },
             down: function() {
-                if (this.top > -(this.len-1) * 100) {
-                    this.top -= 100;
+                if (this.index < this.page_len)
+                    this.index++;
+            },
+
+            // try to transform to mousewheel.up and mousewheel.down
+            // try to be compatible with firefox(DOMMouseScroll)
+            toggle: function(event) {
+                if (event.wheelDelta === -120) {
+                    this.down();
+                } else if (event.wheelDelta === 120) {
+                    this.up();
                 }
+            }
+        },
+        computed: {
+            top: function() {
+                return (this.index - 1) * -100;
             }
         }
     });
     </script>
 </body>
+
 </html>
