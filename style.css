@@ -1,0 +1,79 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.content {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.pages {
+    height: 100%;
+    background-color: #aaa;
+    position: relative;
+/*    -webkit-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;*/
+}
+
+.page {
+    height: 100%;
+    text-align: center;
+    font-size: 54px;
+    background-color: rgb(34, 34, 34);
+    color: #eee;
+}
+
+.btns {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.nav-point {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    display: inline-block;
+    list-style: none;
+    z-index: 100;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.nav-point > li {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    margin: 8px;
+    cursor: pointer;
+}
+
+.nav-point > li.active {
+    background-color: #eee;
+}
